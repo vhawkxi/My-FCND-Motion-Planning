@@ -1,6 +1,6 @@
 # Project: 3D Motion Planning
 
-![Quad Movie](https://github.com/vhawkxi/My-FCND-Motion-Planning/misc/builtin2.mp4)
+![Quad Movie](https://github.com/vhawkxi/My-FCND-Motion-Planning/blob/master/misc/builtin2.mp4)
 
 ---
 ## Starter Code
