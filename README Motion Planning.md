@@ -1,8 +1,7 @@
 # Project: 3D Motion Planning
 
-![Quad Movie](https://github.com/vhawkxi/My-FCND-Motion-Planning/blob/master/misc/BuiltIn2.mp4)
-
 ---
+
 ## Starter Code
 
 Here I will explain the starter code. How does the code of backyard flyer differ in context from that of motion planning?
@@ -389,4 +388,10 @@ Found a path.
 
 ### Images
 
-![Edges](https://github.com/vhawkxi/My-FCND-Motion-Planning/blob/master/misc/Capture.PNG) ![Path](https://github.com/vhawkxi/My-FCND-Motion-Planning/blob/master/misc/Capture2.PNG)
+#### Edges
+
+![Edges](https://github.com/vhawkxi/My-FCND-Motion-Planning/blob/master/misc/Capture.PNG) 
+
+#### Path
+
+![Path](https://github.com/vhawkxi/My-FCND-Motion-Planning/blob/master/misc/Capture2.PNG)
