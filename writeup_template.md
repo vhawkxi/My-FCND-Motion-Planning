@@ -389,4 +389,4 @@ Found a path.
 
 ### Images
 
-![Edges]https://github.com/vhawkxi/My-FCND-Motion-Planning/blob/master/misc/Capture.PNG ![Path]https://github.com/vhawkxi/My-FCND-Motion-Planning/blob/master/misc/Capture2.PNG
+![Edges](https://github.com/vhawkxi/My-FCND-Motion-Planning/blob/master/misc/Capture.PNG) ![Path](https://github.com/vhawkxi/My-FCND-Motion-Planning/blob/master/misc/Capture2.PNG)
