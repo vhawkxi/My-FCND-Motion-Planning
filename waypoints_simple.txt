@@ -1,0 +1,40 @@
+Logs\NavLog.txt
+starting connection
+arming transition
+Searching for a path ...
+global home [-122.39745   37.79248    0.     ], position [-1.22397449e+02  3.77924812e+01 -2.40000000e-02], local position [0.14283974 0.09875524 0.02475624]
+North offset = -316, east offset = -445
+Local Start and Goal:  (316, 445) (326, 455)
+Found a path.
+11 paths pruned to 11
+
+[[0, 0, 5, 0], [1, 1, 5, 0], [2, 2, 5, 0], [3, 3, 5, 0], [4, 4, 5, 0], [5, 5, 5, 0], [6, 6, 5, 0], [7, 7, 5, 0], [8, 8, 5, 0], [9, 9, 5, 0], [10, 10, 5, 0]]
+
+takeoff transition
+waypoint transition
+target position [0, 0, 5, 0]
+waypoint transition
+target position [1, 1, 5, 0]
+waypoint transition
+target position [2, 2, 5, 0]
+waypoint transition
+target position [3, 3, 5, 0]
+waypoint transition
+target position [4, 4, 5, 0]
+waypoint transition
+target position [5, 5, 5, 0]
+waypoint transition
+target position [6, 6, 5, 0]
+waypoint transition
+target position [7, 7, 5, 0]
+waypoint transition
+target position [8, 8, 5, 0]
+waypoint transition
+target position [9, 9, 5, 0]
+waypoint transition
+target position [10, 10, 5, 0]
+landing transition
+disarm transition
+manual transition
+Closing connection ...
+Sending waypoints to simulator ...

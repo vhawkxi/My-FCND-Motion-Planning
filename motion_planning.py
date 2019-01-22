@@ -197,7 +197,11 @@ class MotionPlanning(Drone):
         # TODO (if you're feeling ambitious): Try a different approach altogether!
         # Using the Probablistic approach
         # ========================================================================================
+
+        #import sys
+        #sys.stdout = open("waypoints_statistical.txt", "w+")
         
+
         plt.rcParams['figure.figsize'] = 15, 15
 
         filename = 'colliders.csv'
@@ -393,5 +397,8 @@ if __name__ == "__main__":
     conn = MavlinkConnection('tcp:{0}:{1}'.format(args.host, args.port), timeout=60)
     drone = MotionPlanning(conn)
     time.sleep(1)
+
+    #import sys
+    #sys.stdout = open("waypoints_simple.txt", "w+")
 
     drone.start()
