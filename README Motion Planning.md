@@ -162,7 +162,7 @@ Sending waypoints to simulator ...
 
 ---
 
-## Different Approuch : Using the Staistcal Planning option
+## Different Approach : Using the Statistical Planning option
 
 ``` Python
         # ============================================================================
