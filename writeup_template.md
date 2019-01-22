@@ -1,5 +1,6 @@
-## Project: 3D Motion Planning
-![Quad Image](./misc/enroute.png)
+# Project: 3D Motion Planning
+
+![Quad Movie](./misc/builtin2.mp4)
 
 ---
 
@@ -14,69 +15,115 @@
 7. Write it up.
 8. Congratulations!  Your Done!
 
-## [Rubric](https://review.udacity.com/#!/rubrics/1534/view) Points
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
+## Starter Code
 
----
-### Writeup / README
+Here I will explain the starter code. How does the code of backyard flyer differ in context from that of motion planning?
 
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  
+We start off by looking at:
 
-You're reading it! Below I describe how I addressed each rubric point and where in my code each point is handled.
+``` Python
+autoclass States(Enum):
+        MANUAL = auto()
+        ARMING = auto()
+        TAKEOFF = auto()
+        WAYPOINT = auto()
+        LANDING = auto()
+        DISARMING = auto()
+        PLANNING = auto()auto
+```
 
-### Explain the Starter Code
+which adds the PLANNING state, a state that is invoked after the arming state has completed to calculate the way the drone is going to reach the destination.
 
-#### 1. Explain the functionality of what's provided in `motion_planning.py` and `planning_utils.py`
-These scripts contain a basic planning implementation that includes...
+``` Python
+   def state_callback(self):
+        if self.in_mission:
+            ...  
+            elif self.flight_state == States.ARMING:
+                if self.armed:
+                    self.plan_path()
+            elif ...
+```
 
-And here's a lovely image of my results (ok this image has nothing to do with it, but it's a nice example of how to include images in your writeup!)
-![Top Down View](./misc/high_up.png)
+Next we look at the plan_path method:
 
-Here's | A | Snappy | Table
---- | --- | --- | ---
-1 | `highlight` | **bold** | 7.41
-2 | a | b | c
-3 | *italic* | text | 403
-4 | 2 | 3 | abcd
+``` Python
+   def plan_path(self):
+        self.flight_state = States.PLANNING
+        print("Searching for a path ...")
+        TARGET_ALTITUDE = 5
+        SAFETY_DISTANCE = 10
 
-### Implementing Your Path Planning Algorithm
+        self.target_position[2] = TARGET_ALTITUDE
 
-#### 1. Set your global home position
-Here students should read the first line of the csv file, extract lat0 and lon0 as floating point values and use the self.set_home_position() method to set global home. Explain briefly how you accomplished this in your code.
+        # ===========================================================
+        # Point 1
+        # ===========================================================
+        # Read lat0, lon0 from colliders into floating point values
+        with open('colliders.csv', 'r') as terrainData:
+            fields = terrainData.read().strip().split(",")
+            lat0 = float(fields[0].split()[1])
+            lon0 = float(fields[1].split()[1])
 
+        # Set home position to (lon0, lat0, 0)
+        self.set_home_position(lon0, lat0, 0)
 
-And here is a lovely picture of our downtown San Francisco environment from above!
-![Map of SF](./misc/map.png)
+        # Retrieve current global position
+        global_position = (self._longitude, self._latitude, self._altitude)
 
-#### 2. Set your current local position
-Here as long as you successfully determine your local position relative to global home you'll be all set. Explain briefly how you accomplished this in your code.
+        # Convert to current local position using global_to_local()
+        local_position = global_to_local(global_position, self.global_home)
 
+        print('global home {0}, position {1}, local position {2}'.format(self.global_home, self.global_position,
+                                                                         self.local_position))
+        # Read in obstacle map
+        data = np.loadtxt('colliders.csv', delimiter=',', dtype='Float64', skiprows=2)
 
-Meanwhile, here's a picture of me flying through the trees!
-![Forest Flying](./misc/in_the_trees.png)
+        # ===========================================================
+        # Point 2
+        # ===========================================================
+        # Define a grid for a particular altitude and safety margin around obstacles
+        grid, north_offset, east_offset = create_grid(data, TARGET_ALTITUDE, SAFETY_DISTANCE)
+        print("North offset = {0}, east offset = {1}".format(north_offset, east_offset))
+        # Define starting point on the grid (this is just grid center)
+        grid_start = (-north_offset, -east_offset)
+        # Convert start position to current position rather than map center
+        grid_start = (int(local_position[0] - north_offset), int(local_position[1] - east_offset))
+        # Set goal as some arbitrary position on the grid
+        grid_goal = (-north_offset + 10, -east_offset + 10 )
+        # Adapt to set goal as latitude / longitude position and convert
+        grid_goal_pos = (grid_goal[0], grid_goal[0], TARGET_ALTITUDE)
+        global_goal = local_to_global(grid_goal_pos, self.global_home)
+        local_goal = global_to_local(global_goal, self.global_home)
 
-#### 3. Set grid start position from local position
-This is another step in adding flexibility to the start location. As long as it works you're good to go!
+        # ===========================================================
+        # Point 3
+        # ===========================================================
+        # Run A* to find a path from start to goal
+        # Add diagonal motions with a cost of sqrt(2) to your A* implementation
+        # or move to a different search space such as a graph (not done here)
 
-#### 4. Set grid goal position from geodetic coords
-This step is to add flexibility to the desired goal location. Should be able to choose any (lat, lon) within the map and have it rendered to a goal location on the grid.
+        print('Local Start and Goal: ', grid_start, grid_goal)
+        path, _ = a_star(grid, heuristic, grid_start, grid_goal)
 
-#### 5. Modify A* to include diagonal motion (or replace A* altogether)
-Minimal requirement here is to modify the code in planning_utils() to update the A* implementation to include diagonal motions on the grid that have a cost of sqrt(2), but more creative solutions are welcome. Explain the code you used to accomplish this step.
+        # Prune path to minimize number of waypoints
+        pruned_path = prune_path(path)
+        print('{0} paths pruned to {1}\n'.format(len(path), len(pruned_path)))
 
-#### 6. Cull waypoints 
-For this step you can use a collinearity test or ray tracing method like Bresenham. The idea is simply to prune your path of unnecessary waypoints. Explain the code you used to accomplish this step.
+        # Convert path to waypoints
+        waypoints = [[p[0] + north_offset, p[1] + east_offset, TARGET_ALTITUDE, 0] for p in pruned_path]
 
+        print(waypoints)
+        print()
+```
 
+### Point 1
 
-### Execute the flight
-#### 1. Does it work?
-It works!
+At point 1 we read the startig position from the _colliders.csv_ fie.  we then set the home position to this value.
 
-### Double check that you've met specifications for each of the [rubric](https://review.udacity.com/#!/rubrics/1534/view) points.
-  
-# Extra Challenges: Real World Planning
+### Point 2
 
-For an extra challenge, consider implementing some of the techniques described in the "Real World Planning" lesson. You could try implementing a vehicle model to take dynamic constraints into account, or implement a replanning method to invoke if you get off course or encounter unexpected obstacles.
+At point 2 we define a grid for the environment the drone has to fly in, taking into consideration the safety space around the drone and the height we want to fly at.
 
+### Point 3
 
+At point 3 we use the A* method to find a path from the home to the end position, prune out unneccesarry points and then fly the path.

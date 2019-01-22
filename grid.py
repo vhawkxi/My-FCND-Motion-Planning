@@ -38,7 +38,7 @@ def create_grid_prob(data, drone_altitude, safety_distance):
             grid[obstacle[0]:obstacle[1]+1, obstacle[2]:obstacle[3]+1] = 1
 
     return grid
-# Here you'll modify the `create_grid()` method from a previous exercise
+
 # In this new function you'll record obstacle centres and
 # create a Voronoi graph around those points
 def create_grid_and_edges(data, drone_altitude, safety_distance):

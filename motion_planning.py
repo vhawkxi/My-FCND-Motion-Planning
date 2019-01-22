@@ -207,9 +207,9 @@ class MotionPlanning(Drone):
         from sampling import Sampler
         sampler = Sampler(data)
         polygons = sampler._polygons
-        nodes = sampler.sample(200)
+        nodes = sampler.sample(800)
         print(len(nodes))
-        nodes[0]= (local_goal[0],local_goal[1],5.0)
+        nodes[0]= (local_goal[0],local_goal[1],local_goal[2])
 
         import numpy.linalg as LA
         from sklearn.neighbors import KDTree
@@ -328,14 +328,19 @@ class MotionPlanning(Drone):
         k=len(g.nodes) - 1
         goal = list(g.nodes)[k]
 
-        print(start)
-        print(goal)
+        print("\n\n")
+        print("Start at : {0}",start)
+        print("\n")
+        print("Goal at : {0}" ,goal)
+        print("\n\n")
 
-        path, cost = a_star_prob(g, heuristic, start, goal)
-        print(len(path), path)
+        path_prob, cost = a_star_prob(g, heuristic, start, goal)
+        
+        print(len(path), path_prob)
 
-        path_pairs = zip(path[:-1], path[1:])
+        path_pairs = zip(path_prob[:-1], path_prob[1:])
         for (n1, n2) in path_pairs:
+            print("\n\t\t")
             print(n1, n2)
 
         fig = plt.figure()
@@ -354,7 +359,7 @@ class MotionPlanning(Drone):
             plt.plot([n1[1] - emin, n2[1] - emin], [n1[0] - nmin, n2[0] - nmin], 'gray')
     
         # TODO: add code to visualize the path
-        path_pairs = zip(path[:-1], path[1:])
+        path_pairs = zip(path_prob[:-1], path_prob[1:])
         for (n1, n2) in path_pairs:
             plt.plot([n1[1] - emin, n2[1] - emin], [n1[0] - nmin, n2[0] - nmin], 'green',linewidth=5.0)
 
