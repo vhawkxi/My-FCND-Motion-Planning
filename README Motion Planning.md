@@ -162,12 +162,12 @@ Sending waypoints to simulator ...
 
 ---
 
-## Different Approach : Using the Statistical Planning option
+## Different Approach : Using the Probabilistic Planning option
 
 ``` Python
         # ============================================================================
         # TODO (if you're feeling ambitious): Try a different approach altogether!
-        # Using the Probablistic approach
+        # Using the Probabilistic approach
         # ============================================================================
 
         plt.rcParams['figure.figsize'] = 15, 15
