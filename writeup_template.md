@@ -1,6 +1,6 @@
 # Project: 3D Motion Planning
 
-![Quad Movie](./misc/builtin2.mp4)
+![Quad Movie](https://github.com/vhawkxi/My-FCND-Motion-Planning/misc/builtin2.mp4)
 
 ---
 ## Starter Code
@@ -389,4 +389,4 @@ Found a path.
 
 ### Images
 
-![Edges](./misc/capture.png) ![Path](./misc/capture2.png)
+![Edges](https://github.com/vhawkxi/My-FCND-Motion-Planning/misc/capture.png) ![Path](https://github.com/vhawkxi/My-FCND-Motion-Planning/misc/capture2.png)
